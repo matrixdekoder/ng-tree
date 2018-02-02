@@ -19,8 +19,8 @@ import {TreeDemoService} from './tree-demo.service';
 export class TreeFilterDemoComponent implements OnInit {
 
   public treeService: ITreeService;
-  selectedNode: ITreeNode;
-  items: MenuItem[];
+  public selectedNode: ITreeNode;
+  public items: MenuItem[];
 
   constructor(private http: HttpClient) {
     this.treeService = new TreeDemoService(this.http);

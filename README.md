@@ -1,27 +1,59 @@
-# NgTree
+# Angular 5 Tree
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.7.
+Simple tree component with lazy loading, client/server side filtering, context menu.
+ (<a target="_blank" href="https://mazdik.github.io/ng-tree/">Demo</a>) 
 
-## Development server
+### Sample
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {ITreeNode, ITreeService, MenuItem} from '../ng-tree';
+import {TreeDemoService} from './tree-demo.service';
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+@Component({
+  selector: 'app-tree-filter-demo',
+  template: `
+    <app-tree-view
+      [service]="treeService"
+      [selectedNode]="selectedNode"
+      (selectedChanged)="onSelectNode($event)"
+      [serverSideFiltering]="true"
+      [contextMenu]="contextMenu">
+    </app-tree-view>
+    <app-context-menu #contextMenu [items]="items"></app-context-menu>
+  `
+})
+export class TreeFilterDemoComponent implements OnInit {
 
-## Code scaffolding
+  public treeService: ITreeService;
+  public selectedNode: ITreeNode;
+  public items: MenuItem[];
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+  constructor(private http: HttpClient) {
+    this.treeService = new TreeDemoService(this.http);
+  }
 
-## Build
+  ngOnInit() {
+    this.items = [
+      {label: 'View Task', command: (event) => console.log(this.selectedNode)},
+      {label: 'Edit Task', command: (event) => console.log(event)},
+      {label: 'Delete Task', command: (event) => console.log(event), disabled: true}
+    ];
+  }
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+  onSelectNode(node: ITreeNode) {
+    this.selectedNode = node;
+    console.log(node);
+  }
 
-## Running unit tests
+}
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Custom service
+```typescript
+interface ITreeService {
+  url: string;
+  getNodes(node?: ITreeNode): Promise<ITreeNode[]>;
+  searchNodes(name: string): Promise<any>;
+}
+```

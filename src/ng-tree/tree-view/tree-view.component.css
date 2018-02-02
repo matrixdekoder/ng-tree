@@ -56,13 +56,17 @@
   margin: 2px 0;
 }
 
-.loading-content {
+.tree-loading-content {
   text-align: center;
 }
 
-.loading-content i {
+.tree-loading-content i {
   height: 40px;
   width: 40px;
+}
+
+.tree-header {
+  padding-top: 3px;
 }
 
 .tree-body {
@@ -87,8 +91,4 @@
 .icon-node.icon-collapsing:before {
   transform: rotate(-90deg);
   transition: all .3s cubic-bezier(.4,0,.2,1);
-}
-
-.tree-header {
-  padding-top: 3px;
 }
