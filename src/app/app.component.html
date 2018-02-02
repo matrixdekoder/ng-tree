@@ -1,0 +1,15 @@
+<div class="topnav" id="myTopnav">
+  <a href="javascript:void(0);">Angular Tree</a>
+  <a href="javascript:void(0);" class="icon" (click)="responsiveMenu()">&#9776;</a>
+</div>
+
+<div class="sidenav">
+  <a href="javascript:void(0);" (click)="state='basic-demo'" [ngClass]="{'active': state === 'basic-demo'}">
+    Basic demo</a>
+</div>
+
+<div class="main">
+  <div style="width: 220px; height: 500px; border-right: 1px solid #eee">
+    <app-tree-filter-demo *ngIf="state === 'basic-demo'"></app-tree-filter-demo>
+  </div>
+</div>
